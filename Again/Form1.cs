@@ -22,6 +22,7 @@ namespace Again
             Random random = new Random();
             currentButton.BackColor = Color.FromArgb(random.Next(2147483647));
 
+            currentButton.MouseClick += button1_MouseClick;
             this.Controls.Add(currentButton);
             currentButton.BringToFront();
             this.MouseMove += Form1_MouseMove;
@@ -72,6 +73,7 @@ namespace Again
                     if (button != anotherButton)
                     {
                         Rectangle origin = new Rectangle(button.Location, button.Size);
+                        origin.Offset(0, 1);
                         Rectangle another = new Rectangle(anotherButton.Location, anotherButton.Size);
                         if (origin.IntersectsWith(another))
                         {
@@ -94,6 +96,13 @@ namespace Again
         private void Form1_ResizeBegin(object sender, EventArgs e)
         {
             CalcPhysics();
+        }
+
+        private void button1_MouseClick(object sender, MouseEventArgs e)
+        {
+            Button button = sender as Button;
+            buttons.Remove(button);
+            this.Controls.Remove(button);
         }
     }
 }

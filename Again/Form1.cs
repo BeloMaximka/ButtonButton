@@ -4,6 +4,8 @@ namespace Again
     {
         Button currentButton;
         Point anchor;
+        LinkedList<Button> buttons = new LinkedList<Button>();
+
         public Form1()
         {
             InitializeComponent();
@@ -53,6 +55,45 @@ namespace Again
         private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
             this.MouseMove -= Form1_MouseMove;
+            buttons.AddLast(currentButton);
+            CalcPhysics();
+        }
+
+        private void CalcPhysics()
+        {
+            foreach (Button button in buttons)
+            {
+
+                if (button.Location.Y + button.Size.Height > this.ClientSize.Height)
+                    continue;
+                bool failed = false;
+                foreach (Button anotherButton in buttons)
+                {
+                    if (button != anotherButton)
+                    {
+                        Rectangle origin = new Rectangle(button.Location, button.Size);
+                        Rectangle another = new Rectangle(anotherButton.Location, anotherButton.Size);
+                        if (origin.IntersectsWith(another))
+                        {
+                            failed = true;
+                            break;
+                        }
+                    }
+                }
+                if (failed) continue;
+                button.Location = new Point(button.Location.X, button.Location.Y + 1);
+
+            }
+
+        }
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+            CalcPhysics();
+        }
+
+        private void Form1_ResizeBegin(object sender, EventArgs e)
+        {
+            CalcPhysics();
         }
     }
 }

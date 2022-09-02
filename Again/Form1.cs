@@ -107,38 +107,49 @@ namespace Again
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
+            Point offset = new Point();
             Point newLocation = this.Location;
+            foreach (Screen screen in Screen.AllScreens)
+                if (screen.Bounds.Contains(this.Location))
+                {
+                    newLocation = new Point(this.Location.X - screen.Bounds.Left,
+                                     this.Location.Y - screen.Bounds.Top);
+                    offset = new Point(screen.Bounds.Left, screen.Bounds.Top);
+                }
+
             switch (e.KeyCode)
             {
                 case Keys.Left:
                 case Keys.A:
-                    if (this.Location.X - 50 < 0)
+                    if (newLocation.X - 50 < 0)
                         newLocation.X = 0;
                     else
                         newLocation.X -= 50;
                     break;
                 case Keys.Right:
                 case Keys.D:
-                    if (this.Location.X + this.Width + 50 > Screen.GetWorkingArea(newLocation).Width)
-                        newLocation.X = Screen.GetWorkingArea(newLocation).Width - this.Width;
+                    if (newLocation.X + this.Width + 50 > Screen.GetWorkingArea(this.Location).Width)
+                        newLocation.X = Screen.GetWorkingArea(this.Location).Width - this.Width;
                     else
                         newLocation.X += 50;
                     break;
                 case Keys.Up:
                 case Keys.W:
-                    if (this.Location.Y - 50 < 0)
+                    if (newLocation.Y - 50 < 0)
                         newLocation.Y = 0;
                     else
                         newLocation.Y -= 50;
                     break;
                 case Keys.Down:
                 case Keys.S:
-                    if (this.Location.Y + this.Height + 50 > Screen.GetWorkingArea(newLocation).Height)
-                        newLocation.Y = Screen.GetWorkingArea(newLocation).Height - this.Height;
+                    if (newLocation.Y + this.Height + 50 > Screen.GetWorkingArea(this.Location).Height)
+                        newLocation.Y = Screen.GetWorkingArea(this.Location).Height - this.Height;
                     else
                         newLocation.Y += 50;
                     break;
             }
+            newLocation.X += offset.X;
+            newLocation.Y += offset.Y;
             this.Location = newLocation;
         }
     }

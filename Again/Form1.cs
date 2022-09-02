@@ -104,5 +104,42 @@ namespace Again
             buttons.Remove(button);
             this.Controls.Remove(button);
         }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            Point newLocation = this.Location;
+            switch (e.KeyCode)
+            {
+                case Keys.Left:
+                case Keys.A:
+                    if (this.Location.X - 50 < 0)
+                        newLocation.X = 0;
+                    else
+                        newLocation.X -= 50;
+                    break;
+                case Keys.Right:
+                case Keys.D:
+                    if (this.Location.X + this.Width + 50 > Screen.GetWorkingArea(newLocation).Width)
+                        newLocation.X = Screen.GetWorkingArea(newLocation).Width - this.Width;
+                    else
+                        newLocation.X += 50;
+                    break;
+                case Keys.Up:
+                case Keys.W:
+                    if (this.Location.Y - 50 < 0)
+                        newLocation.Y = 0;
+                    else
+                        newLocation.Y -= 50;
+                    break;
+                case Keys.Down:
+                case Keys.S:
+                    if (this.Location.Y + this.Height + 50 > Screen.GetWorkingArea(newLocation).Height)
+                        newLocation.Y = Screen.GetWorkingArea(newLocation).Height - this.Height;
+                    else
+                        newLocation.Y += 50;
+                    break;
+            }
+            this.Location = newLocation;
+        }
     }
 }

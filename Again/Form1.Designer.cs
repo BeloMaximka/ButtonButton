@@ -28,7 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.physicsTimer = new System.Windows.Forms.Timer(this.components);
+            this.uptimeTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
+            // 
+            // physicsTimer
+            // 
+            this.physicsTimer.Enabled = true;
+            this.physicsTimer.Interval = 16;
+            this.physicsTimer.Tick += new System.EventHandler(this.physicsTimer_Tick);
+            // 
+            // uptimeTimer
+            // 
+            this.uptimeTimer.Enabled = true;
+            this.uptimeTimer.Interval = 1;
+            this.uptimeTimer.Tick += new System.EventHandler(this.uptimeTimer_Tick);
             // 
             // Form1
             // 
@@ -37,8 +52,6 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Name = "Form1";
             this.Text = "Кнопоки";
-            this.ResizeBegin += new System.EventHandler(this.Form1_ResizeBegin);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
@@ -47,5 +60,8 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.Timer physicsTimer;
+        private System.Windows.Forms.Timer uptimeTimer;
     }
 }

@@ -4,11 +4,13 @@ namespace Again
     {
         Button currentButton;
         Point anchor;
+        DateTime startuptime;
         LinkedList<Button> buttons = new LinkedList<Button>();
 
         public Form1()
         {
             InitializeComponent();
+            startuptime = DateTime.Now;
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -73,7 +75,7 @@ namespace Again
                     if (button != anotherButton)
                     {
                         Rectangle origin = new Rectangle(button.Location, button.Size);
-                        origin.Offset(0, 1);
+                        origin.Offset(0, 2);
                         Rectangle another = new Rectangle(anotherButton.Location, anotherButton.Size);
                         if (origin.IntersectsWith(another))
                         {
@@ -83,19 +85,10 @@ namespace Again
                     }
                 }
                 if (failed) continue;
-                button.Location = new Point(button.Location.X, button.Location.Y + 1);
+                button.Location = new Point(button.Location.X, button.Location.Y + 2);
 
             }
 
-        }
-        private void Form1_Paint(object sender, PaintEventArgs e)
-        {
-            CalcPhysics();
-        }
-
-        private void Form1_ResizeBegin(object sender, EventArgs e)
-        {
-            CalcPhysics();
         }
 
         private void button1_MouseClick(object sender, MouseEventArgs e)
@@ -151,6 +144,22 @@ namespace Again
             newLocation.X += offset.X;
             newLocation.Y += offset.Y;
             this.Location = newLocation;
+        }
+
+        private void physicsTimer_Tick(object sender, EventArgs e)
+        {
+            CalcPhysics();
+        }
+
+        private void uptimeTimer_Tick(object sender, EventArgs e)
+        {
+            int ms = (int)(DateTime.Now - startuptime).TotalMilliseconds;
+            if (ms >= 5000)
+            {
+                System.Windows.Forms.Timer timer = sender as System.Windows.Forms.Timer;
+                timer.Enabled = false;
+            }
+            this.Text = $" нопоки - {ms} мс";
         }
     }
 }
